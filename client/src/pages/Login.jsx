@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
+import { BACKEND_URL } from '../config'
+
 
 import InputBox from '../containers/InputBox'
 import { LoginSchema } from '../validation'
@@ -16,13 +19,13 @@ const Login = () => {
     setShowPassword(!showPassword);
   }
 
-  const submithandler = (data) => {
+  const submithandler = async (data) => {
     try{
-      console.log(data)
+      await axios.post(`${BACKEND_URL}/auth/login`, data, {withCredentials: true})
     }
     catch(error){
       console.log("Login Error: ", error)
-      setError('root', { message: error.message })
+      setError('root', { message: error.response.data?.message })
     }
   }
 
@@ -51,7 +54,7 @@ const Login = () => {
           errors={errors}
           />
 
-          {errors.root && <p className='text-red-500'>{errors.root.message}</p>}
+            {errors.root && <p className='bg-red-100 p-2 rounded-md text-red-500'>{errors.root.message}</p>}
 
           <button 
           type="submit"  
