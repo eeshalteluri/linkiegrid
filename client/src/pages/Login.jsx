@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import InputBox from '../containers/InputBox'
+
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -9,33 +11,30 @@ const Login = () => {
   }
 
   return (
-    <div className='bg-white h-screen flex flex-col justify-center items-center'>
-      <button className='w-96 mb-4 bg-blue-200 py-2 px-6 rounded hover:bg-blue-300 focus:bg-blue-200 shadow-xl'>Google</button>
+    <div className='bg-blue-50 h-screen flex justify-center items-center'>
+      <div className='w-[90vw] sm:w-[400px] p-6 border border-gray rounded-md shadow-xl flex flex-col gap-4 bg-white'>
+      <h1 className='text-center text-2xl font-bold'>Login</h1>
+        <h2>Enter your email below to login to your account</h2>
 
-      <p className='text-2xl mb-4'>Or Login with</p>
+        <form className='flex flex-col gap-4'>
+          <InputBox type="email" text="email" labelText="Email Address"/>
+          <InputBox type="password" text="password" labelText="Password"/>
 
-      <form 
-      className='p-4 rounded 
-      [&>label]:text-sm [&>label]:font-semibold [&>label]:text-gray-500
-      [&>input]:w-96 [&>input]:border-2 [&>input]:border-blue-200 [&>input]:rounded [&>input]:p-2 flex flex-col gap-2 shadow-2xl'>
-        <label htmlFor="email">Email Address</label>
-        <input type="email" name="email" id="email" className='hover:shadow'/>
+          <button 
+          type="submit"  
+          className='bg-blue-300 py-2 px-6 border-none rounded-md hover:bg-blue-200 focus:bg-blue-300'>Login</button>
 
-        <label htmlFor="password">Password</label>
-        <input 
-        onChange={toggleShowPassword}
-        type={showPassword ? "text" : "password"} 
-        name="password" 
-        id="password" 
-        className='hover:shadow'/>
+          <button
+            type="button"
+            className='border py-2 px-6 rounded-md hover:bg-gray-100'
+          >
+            Signup with Google
+          </button>
+        </form>
 
-        <input type="submit" value="Login" className='bg-blue-200 py-2 px-6 border-none rounded hover:bg-blue-300'/>
-      </form>
-
-      <p className='mt-8'>Don't have an account? <Link to="/signup" className='hover:text-blue-400 underline'>Signup</Link></p>
-
+        <p className='text-center'>Don't have an account? <Link to="/signup" className='underline hover:text-blue-300'>Signup</Link></p>
+      </div>
     </div>
-      
 )}
 
 export default Login
