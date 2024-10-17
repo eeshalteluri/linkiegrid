@@ -1,13 +1,29 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import InputBox from '../containers/InputBox'
+import { LoginSchema } from '../validation'
+
+
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm({resolver: zodResolver(LoginSchema)});
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
+  }
+
+  const submithandler = (data) => {
+    try{
+      console.log(data)
+    }
+    catch(error){
+      console.log("Login Error: ", error)
+      setError('root', { message: error.message })
+    }
   }
 
   return (
@@ -16,9 +32,26 @@ const Login = () => {
       <h1 className='text-center text-2xl font-bold'>Login</h1>
         <h2>Enter your email below to login to your account</h2>
 
-        <form className='flex flex-col gap-4'>
-          <InputBox type="email" text="email" labelText="Email Address"/>
-          <InputBox type="password" text="password" labelText="Password"/>
+        <form 
+        onSubmit={handleSubmit(submithandler)} 
+        className='flex flex-col gap-4'>
+          
+          <InputBox 
+          type="email" 
+          text="email" 
+          labelText="Email Address"
+          register={register}
+          errors={errors} 
+          />
+          <InputBox 
+          type="password" 
+          text="password" 
+          labelText="Password"
+          register={register}
+          errors={errors}
+          />
+
+          {errors.root && <p className='text-red-500'>{errors.root.message}</p>}
 
           <button 
           type="submit"  
