@@ -84,7 +84,7 @@ export const Login = async (req, res) => {
 
         let options = {
             expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // would expire in 2minutes
-            httpOnly : false, // Ensures cookie is inaccessible via JavaScript( if set to true)
+            httpOnly : true, // Ensures cookie is inaccessible via JavaScript( if set to true)
             secure : false, // Cookie only sent over HTTPS (use in production)
             sameSite : "Lax",
             };
