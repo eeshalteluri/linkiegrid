@@ -17,6 +17,16 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
+        required: function() { return this.authMethod === 'local'; }, // Only required for local users
+    },
+    googleId: {
+        type: String,
+        required: function() { return this.authMethod === 'google'; }, // Only required for Google users
+        unique: true,
+    },
+    authMethod: {
+        type: String,
+        enum: ['local', 'google'], // Possible authentication methods
         required: true,
     },
     createdAt: {

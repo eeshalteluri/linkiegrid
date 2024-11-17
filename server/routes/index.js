@@ -1,5 +1,6 @@
 import express from 'express'
 import Auth from './Auth.js'
+import OAuth from './OAuth.js'
 import Dashboard from './Dashboard.js'
 import Verify from '../middlewares/Verify.js'
 
@@ -10,6 +11,7 @@ router.get('/', (req, res) => {
 })
 
 router.use("/auth", Auth)
+router.use("/oauth", OAuth)
 router.use("/dashboard", Verify, Dashboard)
 
 export default router

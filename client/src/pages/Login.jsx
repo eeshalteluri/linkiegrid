@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
@@ -15,6 +15,8 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm({resolver: zodResolver(LoginSchema)});
 
+  const navigate = useNavigate();
+
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   }
@@ -22,6 +24,7 @@ const Login = () => {
   const submithandler = async (data) => {
     try{
       await axios.post(`${BACKEND_URL}/auth/login`, data, {withCredentials: true})
+      navigate('/dashboard')
     }
     catch(error){
       console.log("Login Error: ", error)

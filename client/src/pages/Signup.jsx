@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
@@ -14,12 +14,19 @@ import { SignupSchema } from '../validation';
 
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm({resolver: zodResolver(SignupSchema)});
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   }
+
+  const OAuthHandler = async () => {
+    const googleOAuthURL = `${BACKEND_URL}/oauth/`; // Redirecting to your backend endpoint that initiates OAuth
+    window.location.href = googleOAuthURL; // This should redirect the browser to the Google OAuth flow
+  };
+  
 
   const submithandler = async (data) => {
     try{
@@ -84,6 +91,7 @@ const Signup = () => {
 
           <button
             type="button"
+            onClick={OAuthHandler}
             className='border py-2 px-6 rounded-md hover:bg-gray-100'
           >
             {isSubmitting ? "Signing up..." : "Signup with Google"}
